@@ -2,7 +2,7 @@
 
 Welcome to Snake Loves Apple, a classic game implemented in Flutter!
 
-![Screenshot 2024-06-14 140150](https://github.com/patelneel9080/Snake_Loves_Apple_Game_Apk/assets/136300996/e6295bd4-2a6a-4138-9439-9189693ef6af)
+
 ![Screenshot_2024-06-14_165457-removebg-preview](https://github.com/patelneel9080/Snake_Loves_Apple_Game_Apk/assets/136300996/b8a97d31-7458-47f6-89e2-91f90401909c)
 
 

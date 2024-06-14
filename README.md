@@ -32,12 +32,6 @@ Avoid hitting the walls or colliding with the snake's body, which ends the game.
 
 - Flutter installed on your machine. If not, follow the [official installation guide](https://flutter.dev/docs/get-started/install).
 
-## Clone the Repository
-
-'''bash
-git clone [https://github.com/patelneel9080/Portfolio](https://github.com/patelneel9080/Snake_Loves_Apple_Game_Apk)
-cd Snake_Game
-
 ## Contributing
 
 Contributions are welcome! Fork the repository and submit a pull request.

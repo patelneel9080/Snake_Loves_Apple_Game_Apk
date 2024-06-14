@@ -15,6 +15,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.blue,
+        visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       home: SnakeGame(),
     );
@@ -86,7 +87,6 @@ class _SnakeGameState extends State<SnakeGame> {
           break;
       }
 
-      // Wrap-around logic
       if (newHead[0] < 0) {
         newHead[0] = rows - 1;
       } else if (newHead[0] >= rows) {
@@ -99,7 +99,6 @@ class _SnakeGameState extends State<SnakeGame> {
         newHead[1] = 0;
       }
 
-      // Check if snake eats food
       if (newHead[0] == food[0] && newHead[1] == food[1]) {
         score++;
         createFood();
@@ -107,7 +106,6 @@ class _SnakeGameState extends State<SnakeGame> {
         snake.removeLast();
       }
 
-      // Check if snake hits itself
       if (snake.skip(1).any((part) => part[0] == newHead[0] && part[1] == newHead[1])) {
         isPlaying = false;
       }
@@ -117,7 +115,6 @@ class _SnakeGameState extends State<SnakeGame> {
   }
 
   void createFood() {
-    // Generate food in an empty cell
     do {
       food = [
         randomGen.nextInt(rows),
@@ -196,7 +193,7 @@ class _SnakeGameState extends State<SnakeGame> {
                 children: [
                   Text(
                     'Score: $score',
-                    style: TextStyle(fontSize: 20),
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.blueAccent),
                   ),
                 ],
               ),
@@ -218,77 +215,97 @@ class _SnakeGameState extends State<SnakeGame> {
                   }
                 },
                 child: AspectRatio(
-                  aspectRatio: rows / (columns + 2),
-                  child: GridView.builder(
-                    physics: NeverScrollableScrollPhysics(),
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: columns,
+                  aspectRatio: rows / (columns),
+                  child: Container(
+                    margin: EdgeInsets.all(10),
+                    padding: EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.blueAccent, width: 2),
+                      borderRadius: BorderRadius.circular(10),
                     ),
-                    itemCount: rows * columns,
-                    itemBuilder: (BuildContext context, int index) {
-                      var color = Colors.grey;
-                      var x = index % columns;
-                      var y = (index / columns).floor();
-                      if (snake.any((part) => part[0] == y && part[1] == x)) {
-                        color = Colors.green;
-                      } else if (food[0] == y && food[1] == x) {
-                        color = Colors.red;
-                      }
-                      return Container(
-                        margin: EdgeInsets.all(1),
-                        decoration: BoxDecoration(
-                          color: color,
-                          shape: BoxShape.rectangle,
-                        ),
-                      );
-                    },
+                    child: GridView.builder(
+                      physics: NeverScrollableScrollPhysics(),
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: columns,
+                      ),
+                      itemCount: rows * columns,
+                      itemBuilder: (BuildContext context, int index) {
+                        var color = Colors.grey[800];
+                        var x = index % columns;
+                        var y = (index / columns).floor();
+                        if (snake.any((part) => part[0] == y && part[1] == x)) {
+                          if (snake.first[0] == y && snake.first[1] == x) {
+                            return Stack(
+                              children: [
+                                Container(
+                                  margin: EdgeInsets.all(1),
+                                  decoration: BoxDecoration(
+                                    color: Colors.green[400],
+                                    shape: BoxShape.rectangle,
+                                    borderRadius: BorderRadius.circular(3),
+                                  ),
+                                ),
+                                Align(
+                                  alignment: Alignment.topLeft,
+                                  child: Container(
+                                    width: 5,
+                                    height: 5,
+                                    margin: EdgeInsets.all(2),
+                                    decoration: BoxDecoration(
+                                      color: Colors.black,
+                                      shape: BoxShape.circle,
+                                    ),
+                                  ),
+                                ),
+                                Align(
+                                  alignment: Alignment.topRight,
+                                  child: Container(
+                                    width: 5,
+                                    height: 5,
+                                    margin: EdgeInsets.all(2),
+                                    decoration: BoxDecoration(
+                                      color: Colors.black,
+                                      shape: BoxShape.circle,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            );
+                          } else {
+                            color = Colors.green[400];
+                          }
+                        } else if (food[0] == y && food[1] == x) {
+                          return Center(
+                            child: Icon(
+                              Icons.apple,
+                              color: Colors.red[400],
+                              size: squareSize.toDouble(),
+                            ),
+                          );
+                        }
+                        return Container(
+                          margin: EdgeInsets.all(1),
+                          decoration: BoxDecoration(
+                            color: color,
+                            shape: BoxShape.rectangle,
+                            borderRadius: BorderRadius.circular(3),
+                          ),
+                        );
+                      },
+                    ),
                   ),
                 ),
               ),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                IconButton(
-                  icon: Icon(Icons.arrow_upward),
-                  onPressed: () {
-                    changeDirection('up');
-                  },
-                ),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                IconButton(
-                  icon: Icon(Icons.arrow_back),
-                  onPressed: () {
-                    changeDirection('left');
-                  },
-                ),
-                IconButton(
-                  icon: Icon(Icons.arrow_forward),
-                  onPressed: () {
-                    changeDirection('right');
-                  },
-                ),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                IconButton(
-                  icon: Icon(Icons.arrow_downward),
-                  onPressed: () {
-                    changeDirection('down');
-                  },
-                ),
-              ],
             ),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 20.0),
               child: ElevatedButton(
                 onPressed: isPlaying ? null : startGame,
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.blueAccent,
+                  padding: EdgeInsets.symmetric(horizontal: 50, vertical: 15),
+                  textStyle: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                ),
                 child: Text('Start Game'),
               ),
             ),

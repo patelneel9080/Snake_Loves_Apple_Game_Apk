@@ -237,7 +237,6 @@ class _SnakeGameState extends State<SnakeGame> {
                                       borderRadius: BorderRadius.circular(3),
                                     ),
                                   ),
-                                  // Eyes based on direction
                                   if (direction == 'up') ...[
                                     Align(
                                       alignment: Alignment.topLeft,
@@ -348,7 +347,6 @@ class _SnakeGameState extends State<SnakeGame> {
                             return Center(
                               child: Icon(
                                 Icons.apple,
-                                // Change this if you have a custom apple icon or image
                                 color: Colors.red[400],
                                 size: squareSize.toDouble(),
                               ),

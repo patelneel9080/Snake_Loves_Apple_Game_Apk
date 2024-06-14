@@ -163,7 +163,8 @@ class _SnakeGameState extends State<SnakeGame> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text('Snake Game'),
+        backgroundColor:  Colors.black.withOpacity(.7),
+        title: Text('Snake Game',style: TextStyle(color: Colors.white),),
       ),
       body: RawKeyboardListener(
         focusNode: _focusNode,
@@ -171,7 +172,6 @@ class _SnakeGameState extends State<SnakeGame> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
-
           children: <Widget>[
             Padding(
               padding: const EdgeInsets.all(12),
@@ -212,7 +212,7 @@ class _SnakeGameState extends State<SnakeGame> {
                       padding: EdgeInsets.all(12),
                       margin: EdgeInsets.all(10),
                       decoration: BoxDecoration(
-                        border: Border.all(color: Colors.blueAccent, width: 2),
+                        border: Border.all(color:  Colors.black.withOpacity(.7), width: 2),
                         borderRadius: BorderRadius.circular(10),
                       ),
                       child: GridView.builder(
@@ -372,12 +372,12 @@ class _SnakeGameState extends State<SnakeGame> {
               child: ElevatedButton(
                 onPressed: isPlaying ? null : startGame,
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.blueAccent,
+                  backgroundColor: Colors.black.withOpacity(.7),
                   padding: EdgeInsets.symmetric(horizontal: 50, vertical: 15),
                   textStyle:
                   TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                 ),
-                child: Text('Start Game'),
+                child: Text('Start Game',style: TextStyle(color: Colors.white),),
               ),
             ),
           ],
